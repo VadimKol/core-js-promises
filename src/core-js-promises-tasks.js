@@ -131,24 +131,16 @@ function getAllResult(promises) {
  * [promise1, promise4, promise3] => Promise.resolved('104030')
  * [promise1, promise4, promise3, promise2] => Promise.resolved('10403020')
  */
-async function queuPromises(promises) {
-  let promiseArr = new Promise((resolve) => {
-    resolve([]);
-  });
+function queuPromises(promises) {
+  let promiseStr = Promise.resolve('');
   promises.forEach((promise) => {
-    promiseArr = promiseArr.then((arr) => {
+    promiseStr = promiseStr.then((str) => {
       return promise.then((el) => {
-        arr.push(el);
-        return arr;
+        return str.concat(el);
       });
     });
   });
-  let result = '';
-  const what = await promiseArr;
-  what.forEach((el) => {
-    result = result.concat(el);
-  });
-  return result;
+  return promiseStr;
 }
 
 module.exports = {
