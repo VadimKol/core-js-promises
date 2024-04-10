@@ -132,15 +132,15 @@ function getAllResult(promises) {
  * [promise1, promise4, promise3, promise2] => Promise.resolved('10403020')
  */
 function queuPromises(promises) {
-  let promiseStr = Promise.resolve('');
-  promises.forEach((promise) => {
-    promiseStr = promiseStr.then((str) => {
-      return promise.then((el) => {
-        return str.concat(el);
-      });
-    });
-  });
-  return promiseStr;
+  return promises.reduce(
+    (accum, p) =>
+      accum.then((str) => {
+        return p.then((el) => {
+          return str.concat(el);
+        });
+      }),
+    Promise.resolve('')
+  );
 }
 
 module.exports = {
